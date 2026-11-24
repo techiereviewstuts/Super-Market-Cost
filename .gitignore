@@ -1,0 +1,7 @@
+.netlify/
+site/.netlify/
+node_modules/
+*.log
+.env
+client_secret*.json
+.DS_Store

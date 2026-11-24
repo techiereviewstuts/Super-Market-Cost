@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="el">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#16a34a">
+<title>Έξοδα Σούπερ Μάρκετ</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header><div><div class="hello">Καλώς ήρθες 👋</div><h1>Έξοδα Σούπερ Μάρκετ</h1></div><span id="syncState" class="sync"></span></header>
+<nav>
+  <button data-tab="home" class="active"><span>🏠</span>Αρχική</button>
+  <button data-tab="charts"><span>📊</span>Γραφήματα</button>
+  <button data-tab="history"><span>🧾</span>Ιστορικό</button>
+  <button data-tab="report"><span>📑</span>Αναφορά</button>
+  <button data-tab="settings"><span>⚙️</span>Ρυθμίσεις</button>
+</nav>
+
+
+<main>
+  <!-- ΣΗΜΕΡΑ -->
+  <section id="tab-home" class="tab active">
+    <div class="hero"><div class="lbl" id="monthLbl">Μήνας</div><div class="big" id="sumMonth">0,00 €</div><div class="chips"><span class="chip">Σήμερα <b id="sumDay">0,00 €</b></span><span class="chip" id="yearChip"><span id="yearLbl">Έτος</span> <b id="sumYear">0,00 €</b></span></div></div>
+    <button id="repBanner" class="banner" hidden></button>
+    <div class="actions">
+      <label class="btn primary big" for="photo">📷 Φωτογραφία απόδειξης</label>
+      <input id="photo" type="file" accept="image/*" capture="environment" hidden>
+      <button class="btn big" id="btnManual">⌨️ Χειροκίνητη εισαγωγή</button>
+      <button class="btn big" id="btnQr">🔳 Σάρωση QR (αναλυτικά προϊόντα με PDF)</button>
+    </div>
+
+    <h2>Πρόσφατες καταχωρήσεις</h2>
+    <ul id="recent" class="list"></ul>
+  </section>
+
+  <!-- ΓΡΑΦΗΜΑΤΑ -->
+  <section id="tab-charts" class="tab">
+    <label class="field">Κατηγορία γραφημάτων
+      <select id="chartCat"><option value="all">Όλες οι κατηγορίες</option><option value="super">🛒 SuperMarket</option><option value="mini">🏪 MiniMarket</option><option value="fuel">⛽ Βενζίνη</option><option value="meat">🥩 Κρέατα</option><option value="greens">🥬 Μανάβικο</option><option value="other">📦 Άλλο</option></select>
+    </label>
+    <h2>Ανά εβδομάδα <small>(τελευταίες 12)</small></h2>
+    <div id="chartWeek" class="chart"></div>
+    <h2>Ανά μήνα <small>(τελευταίοι 12)</small></h2>
+    <div id="chartMonth" class="chart"></div>
+    <h2>Σύνολο έτους</h2>
+    <div class="yearbar">
+      <button class="btn small" id="yPrev">‹</button>
+      <strong id="yLabel"></strong>
+      <button class="btn small" id="yNext">›</button>
+    </div>
+    <div class="card wide"><div class="lbl">Σύνολο</div><div class="val" id="yTotal">0,00 €</div><div class="lbl" id="yAvg"></div></div>
+    <div id="chartYear" class="chart"></div>
+    <h2>Στατιστικά</h2>
+    <select id="statPeriod"><option value="month">Τρέχων μήνας</option><option value="year">Τρέχον έτος</option><option value="all">Όλα</option></select>
+    <div id="statSummary" class="cards two-col"></div>
+    <h2>Ανά κατηγορία</h2>
+    <div id="statCats" class="card"></div>
+    <h2>Ανά επιχείρηση</h2>
+    <div id="statBiz" class="card"></div>
+  </section>
+
+  <!-- ΙΣΤΟΡΙΚΟ -->
+  <section id="tab-history" class="tab">
+    <div class="filters">
+      <select id="fMonth"></select>
+      <select id="fCatH"><option value="all">Όλες οι κατηγορίες</option><option value="super">🛒 SuperMarket</option><option value="mini">🏪 MiniMarket</option><option value="fuel">⛽ Βενζίνη</option><option value="meat">🥩 Κρέατα</option><option value="greens">🥬 Μανάβικο</option><option value="other">📦 Άλλο</option></select>
+    </div>
+    <div class="card wide"><div class="lbl">Σύνολο επιλογής</div><div class="val" id="hTotal">0,00 €</div></div>
+    <ul id="histList" class="list"></ul>
+  </section>
+
+  <!-- ΑΝΑΦΟΡΑ -->
+  <section id="tab-report" class="tab">
+    <select id="repMonth"></select>
+    <div id="repBody"></div>
+    <div class="actions">
+      <button class="btn primary" id="repShare">📤 Κοινοποίηση</button>
+      <button class="btn" id="repPrint">🖨️ Αποθήκευση ως PDF</button>
+    </div>
+  </section>
+
+  <!-- ΡΥΘΜΙΣΕΙΣ -->
+  <section id="tab-settings" class="tab">
+    <h2>Αντίγραφο ασφαλείας (Google Drive)</h2>
+    <p class="hint">Τα δεδομένα αποθηκεύονται στο κρυφό φάκελο της εφαρμογής στο Drive σου. Μετά από επανεγκατάσταση, πάτα «Επαναφορά».</p>
+    <div class="actions col">
+      <button class="btn primary" id="btnConnect">🔗 Σύνδεση με Google</button>
+      <button class="btn" id="btnBackup">☁️ Αντίγραφο τώρα</button>
+      <button class="btn" id="btnRestore">⬇️ Επαναφορά από Drive</button>
+    </div>
+    <label class="field">Google Client ID
+      <input id="clientId" placeholder="xxxxxxxx.apps.googleusercontent.com" autocomplete="off">
+    </label>
+    <details>
+      <summary>Πώς φτιάχνω Client ID (μία φορά)</summary>
+      <ol class="hint">
+        <li>Άνοιξε <b>console.cloud.google.com</b> → νέο project.</li>
+        <li>APIs &amp; Services → Library → ενεργοποίησε το <b>Google Drive API</b>.</li>
+        <li>OAuth consent screen → External → πρόσθεσε το email σου στους <i>Test users</i>.</li>
+        <li>Credentials → Create → <b>OAuth client ID</b> → Web application.</li>
+        <li>Στα <i>Authorized JavaScript origins</i> βάλε: <b id="originTxt"></b></li>
+        <li>Αντίγραψε το Client ID εδώ και πάτα «Σύνδεση».</li>
+      </ol>
+    </details>
+
+    <h2>Αρχείο (εναλλακτικά)</h2>
+    <div class="actions col">
+      <button class="btn" id="btnExport">📤 Εξαγωγή JSON</button>
+      <label class="btn" for="importFile">📥 Εισαγωγή JSON</label>
+      <input id="importFile" type="file" accept="application/json,.json" hidden>
+    </div>
+    <p class="hint" id="storageInfo"></p>
+  </section>
+</main>
+
+<!-- Dialog επιβεβαίωσης / χειροκίνητης εισαγωγής -->
+<dialog id="dlg">
+  <form method="dialog" id="entryForm">
+    <h3 id="dlgTitle">Νέα καταχώρηση</h3>
+    <div id="ocrStatus" class="ocr" hidden></div>
+    <img id="preview" alt="" hidden>
+    <div id="verBadge" class="ver"></div>
+    <label class="field">Ποσό (€)
+      <input id="fAmount" type="text" inputmode="decimal" placeholder="0,00" required autocomplete="off">
+    </label>
+    <div class="two"><label class="field">Ημερομηνία
+      <input id="fDate" type="date" required>
+    </label><label class="field">Ώρα
+      <input id="fTime" type="time">
+    </label></div>
+    <label class="field">Κατηγορία
+      <select id="fCat"><option value="super">🛒 SuperMarket</option><option value="mini">🏪 MiniMarket</option><option value="fuel">⛽ Βενζίνη</option><option value="meat">🥩 Κρέατα</option><option value="greens">🥬 Μανάβικο</option><option value="other">📦 Άλλο</option></select>
+    </label>
+    <label class="field">Σημείωση (προαιρετικά)
+      <input id="fNote" type="text" placeholder="π.χ. Σκλαβενίτης" autocomplete="off">
+    </label>
+    <details id="bizBox" hidden><summary>🏪 Στοιχεία επιχείρησης</summary><div id="bizInfo" class="biz"></div>
+      <label class="field">Όνομα καταστήματος (για τα στατιστικά)
+        <input id="fStore" type="text" autocomplete="off">
+      </label></details>
+    <details id="itemsBox" hidden><summary id="itemsSum"></summary><ul id="itemsList" class="items"></ul></details>
+    <a id="qrLink" class="btn" target="_blank" rel="noopener noreferrer" hidden>🔗 Άνοιγμα απόδειξης (QR)</a>
+    <div class="row">
+      <button type="button" class="btn danger" id="fDelete" hidden>Διαγραφή</button>
+      <button type="button" class="btn" id="fCancel">Άκυρο</button>
+      <button type="submit" class="btn primary">Αποθήκευση</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="dlgImp">
+  <h3>🔳 Σάρωση QR → PDF</h3>
+  <div id="qrStepScan">
+    <p class="hint">Στόχευσε την κάμερα στο QR της απόδειξης. Θα διαβαστεί αυτόματα.</p>
+    <video id="qrVideo" playsinline muted></video>
+    <label class="btn" for="qrPhoto">📷 ή τράβηξε φωτογραφία του QR</label>
+    <input id="qrPhoto" type="file" accept="image/*" capture="environment" hidden>
+  </div>
+  <div id="qrStepPdf" hidden>
+    <div class="ocr">✅ Το QR διαβάστηκε. Τώρα:</div>
+    <ol class="steps">
+      <li><b>Άνοιξε την απόδειξη</b> και πέρασε το bot check:<a id="qrOpen" class="btn primary" target="_blank" rel="noopener noreferrer">🔗 Άνοιγμα απόδειξης</a></li>
+      <li><b>Αποθήκευσέ την ως PDF:</b> ⋮ → Κοινοποίηση → Εκτύπωση → Αποθήκευση ως PDF.</li>
+      <li><b>Γύρνα εδώ</b> (η εφαρμογή μένει ανοιχτή) και διάλεξε το PDF:<label class="btn primary" for="epsFile">📄 Επιλογή PDF</label></li>
+    </ol>
+    <input id="epsFile" type="file" accept="application/pdf,.pdf" hidden>
+    <details><summary>ή επικόλληση κειμένου της σελίδας</summary>
+      <textarea id="epsText" rows="4" placeholder="Επικόλλησε εδώ…"></textarea>
+      <button type="button" class="btn" id="epsGo">Ανάγνωση κειμένου</button>
+    </details>
+  </div>
+  <div id="epsMsg" class="ocr" hidden></div>
+  <div class="row"><button type="button" class="btn" id="epsClose">Κλείσιμο</button></div>
+</dialog>
+
+<div id="toast"></div>
+
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1/dist/jsQR.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js" defer></script>
+<script src="epsilon.js" defer></script>
+<script src="app.js" defer></script>
+</body>
+</html>
