@@ -66,6 +66,78 @@ mkicons.js                   Παράγει τα εικονίδια PNG (node mk
 }
 ```
 
+## Οδηγίες εγκατάστασης (βήμα-βήμα)
+
+Δεν χρειάζεσαι server ή εγκατάσταση εργαλείων. Το φάκελο `site/` τον ανεβάζεις στο Netlify και παίρνεις ένα link `https://<όνομα>.netlify.app`, το οποίο εγκαθιστάς στο κινητό σαν εφαρμογή.
+
+### Α. Ανέβασμα στο Netlify μέσω του app.netlify.com
+
+**Επιλογή 1 – Drag & drop (πιο απλό, χωρίς GitHub)**
+1. Κατέβασε το repo από το GitHub: **Code → Download ZIP** και αποσυμπίεσέ το.
+2. Μπες στο <https://app.netlify.com/> και κάνε σύνδεση (ή δημιούργησε δωρεάν λογαριασμό).
+3. Πάτα **Add new project → Deploy manually** (ή άνοιξε απευθείας το <https://app.netlify.com/drop>).
+4. **Σύρε μέσα στο πλαίσιο τον φάκελο `site`** (όχι ολόκληρο το repo). Πρέπει να περιέχει τα `index.html`, `app.js`, `sw.js` κ.ά. στο πρώτο επίπεδο.
+5. Μόλις τελειώσει το ανέβασμα, ο Netlify δείχνει το link του site, π.χ. `https://random-name-123.netlify.app`.
+
+**Επιλογή 2 – Σύνδεση με το GitHub (αυτόματο deploy σε κάθε αλλαγή)**
+1. Κάνε fork του repo ή χρησιμοποίησε το δικό σου αντίγραφο στο GitHub.
+2. Στο <https://app.netlify.com/> πάτα **Add new project → Import an existing project → Deploy with GitHub** και δώσε άδεια πρόσβασης στο repo.
+3. Διάλεξε το repository `Super-Market-Cost`.
+4. Στις ρυθμίσεις του build συμπλήρωσε:
+
+   | Πεδίο | Τιμή |
+   |---|---|
+   | Branch to deploy | `main` |
+   | Build command | *(άφησέ το κενό)* |
+   | Publish directory | `site` |
+
+5. Πάτα **Deploy**. Από εδώ και πέρα, κάθε `git push` στο `main` ανεβάζει αυτόματα νέα έκδοση.
+
+**Αλλαγή ονόματος του link (προαιρετικά):** στο project πήγαινε **Project configuration → General → Project details → Change project name** και διάλεξε κάτι δικό σου, π.χ. `exoda-supermarket`. Το νέο link θα είναι `https://exoda-supermarket.netlify.app`. Θυμήσου ότι αν το αλλάξεις αργότερα, πρέπει να ενημερώσεις και το *Authorized JavaScript origin* στη Google (βήμα Β).
+
+> **Σημείωση:** στο δωρεάν πλάνο ο Netlify εμφανίζει μια ένδειξη «Powered by Netlify» κάτω στην οθόνη. Δεν επηρεάζει τη λειτουργία.
+
+### Β. Ρύθμιση Google Drive (για αντίγραφο ασφαλείας)
+Χωρίς αυτό η εφαρμογή δουλεύει κανονικά, αλλά τα δεδομένα μένουν μόνο στο κινητό.
+
+1. Άνοιξε το <https://console.cloud.google.com/> και φτιάξε νέο **project**.
+2. **APIs & Services → Library** → αναζήτησε **Google Drive API** → **Enable**.
+3. **APIs & Services → OAuth consent screen** (ή *Google Auth Platform*): διάλεξε **External**, συμπλήρωσε όνομα εφαρμογής και email, και στα **Test users** πρόσθεσε το Gmail που θα χρησιμοποιείς.
+4. **Credentials → Create credentials → OAuth client ID** → τύπος **Web application**.
+5. Στο **Authorized JavaScript origins** πάτα *Add URI* και βάλε το link του Netlify σου, **χωρίς** `/` στο τέλος:
+   `https://<όνομα>.netlify.app`
+   (Το *Authorized redirect URIs* μένει κενό.)
+6. Πάτα **Create** και αντίγραψε το **Client ID** (`…apps.googleusercontent.com`). Το *Client secret* δεν χρειάζεται και δεν το δίνεις πουθενά.
+7. Βάλε το Client ID στην εφαρμογή με έναν από τους δύο τρόπους:
+   - **Από την εφαρμογή:** *Ρυθμίσεις → Google Client ID* (πιο εύκολο, δεν αλλάζεις κώδικα), ή
+   - **Στον κώδικα:** αντικατέστησε την τιμή της `DEFAULT_CID` στο `site/app.js` και ξανανέβασε τον φάκελο στο Netlify.
+
+> Το project της Google σε κατάσταση *Testing* ζητά νέα σύνδεση κάθε 7 ημέρες. Αν σε ενοχλεί, πέρασέ το σε **In production** από το *Audience*. Για προσωπική χρήση δεν απαιτείται επαλήθευση, αλλά θα βλέπεις την προειδοποίηση «unverified app» (*Advanced → Continue*).
+
+### Γ. Εγκατάσταση στο Android
+1. Άνοιξε το link του Netlify στο **Chrome** του κινητού.
+2. Μενού **⋮ → Εγκατάσταση εφαρμογής** (ή *Προσθήκη στην αρχική οθόνη*).
+3. Η εφαρμογή εμφανίζεται στην οθόνη σου και ανοίγει σε πλήρη οθόνη.
+4. Πήγαινε **Ρυθμίσεις → Σύνδεση με Google**, επίλεξε λογαριασμό και δώσε την άδεια πρόσβασης στα δεδομένα της εφαρμογής στο Drive.
+5. Πάτα **Αντίγραφο τώρα** και δες ότι εμφανίζεται «☁️ συγχρονισμένο».
+
+**Επαναφορά μετά από επανεγκατάσταση ή νέο κινητό:** επανέλαβε τα βήματα Γ1–Γ4 και πάτα **Επαναφορά από Drive**.
+
+### Δ. Ενημέρωση της εφαρμογής
+- **Drag & drop:** στο project πήγαινε στο **Deploys** και σύρε τον νέο φάκελο `site` στο πλαίσιο «Drag and drop your project folder here».
+- **Με GitHub:** κάνε `git push` στο `main`· ο Netlify ανεβάζει μόνος του.
+- Στο κινητό, κλείσε εντελώς την εφαρμογή και άνοιξέ την ξανά για να φορτώσει η νέα έκδοση. Αν δεν αλλάξει, καθάρισε τα δεδομένα του site ή ξαναεγκατέστησέ την (τα δεδομένα σου είναι ασφαλή στο Drive).
+
+### Συχνά προβλήματα
+
+| Πρόβλημα | Λύση |
+|---|---|
+| «Σφάλμα redirect_uri / origin mismatch» στη σύνδεση Google | Το *Authorized JavaScript origin* στη Google πρέπει να ταυτίζεται ακριβώς με το link του Netlify (`https://…netlify.app`, χωρίς `/`). |
+| «Access blocked / access_denied» | Πρόσθεσε το Gmail σου στους **Test users** του OAuth consent screen. |
+| Δεν εμφανίζεται η επιλογή «Εγκατάσταση εφαρμογής» | Χρησιμοποίησε Chrome και άνοιξε το site μέσω `https://` (όχι από προεπισκόπηση του Netlify). |
+| Το OCR δεν δουλεύει | Την πρώτη φορά κατεβάζει τα ελληνικά δεδομένα, χρειάζεται internet και λίγη υπομονή. |
+| Το QR δεν διαβάζεται | Βεβαιώσου ότι φαίνεται ολόκληρο στην κάμερα, ή χρησιμοποίησε «τράβηξε φωτογραφία του QR». |
+
 ## Εκτέλεση και ανάπτυξη
 
 ```bash
