@@ -5,6 +5,11 @@
 ## [Μη κυκλοφορημένο]
 - Ιδέες: μηνιαίοι στόχοι (budget) ανά κατηγορία, παρακολούθηση τιμών προϊόντων, εξαγωγή σε CSV/Sheets, αναίρεση διαγραφής.
 
+## [0.6.1] – 2026-11-24
+### Άλλαξε
+- Νέο Google OAuth Client ID με authorized origin το GitHub Pages (διορθώνει το σφάλμα `origin_mismatch`). Το Netlify site δεν υποστηρίζεται πλέον με το προεπιλεγμένο Client ID.
+- Έκδοση cache του service worker: `expenses-v16`.
+
 ## [0.6.0] – 2026-11-24
 ### Προστέθηκε
 - Φιλοξενία στο **GitHub Pages** με αυτόματο deploy σε κάθε push (GitHub Actions) και ξεχωριστός οδηγός `INSTALL-GITHUB-PAGES.md`.

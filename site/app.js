@@ -524,7 +524,7 @@ $('#importFile').onchange = async ev => {
 };
 
 /* ---------- Google Drive (appDataFolder) ---------- */
-const DEFAULT_CID = '995876883635-2dc654cd2ocvdh7f798i3prcojodt0rn.apps.googleusercontent.com';
+const DEFAULT_CID = '995876883635-q0eil5ri7eqdjr83ad3amskbsl7id46l.apps.googleusercontent.com';
 const SCOPE = 'https://www.googleapis.com/auth/drive.appdata', FILE = 'supermarket-expenses-backup.json';
 let tokClient = null, token = null, tokExp = 0;
 $('#clientId').value = localStorage.getItem('sm_cid') || DEFAULT_CID;
