@@ -7,7 +7,7 @@
 
 | Φιλοξενία | Κόστος | Οδηγός |
 |---|---|---|
-| **GitHub Pages** (προτεινόμενο) | Δωρεάν, χωρίς credits | **[Οδηγίες GitHub Pages](docs/INSTALL-GITHUB-PAGES.md)** |
+| **GitHub Pages** (προτεινόμενο) | Δωρεάν, χωρίς credits | **[Οδηγίες GitHub Pages](INSTALL-GITHUB-PAGES.md)** |
 | Netlify | Δωρεάν πλάνο με credits (15 ανά deploy) | [Οδηγίες Netlify](#οδηγίες-εγκατάστασης-βήμα-βήμα) |
 
 Ζωντανή εφαρμογή: <https://techiereviewstuts.github.io/Super-Market-Cost/>
@@ -77,7 +77,7 @@ mkicons.js                   Παράγει τα εικονίδια PNG (node mk
 
 ## Οδηγίες εγκατάστασης (βήμα-βήμα)
 
-> **Δύο επιλογές φιλοξενίας:** Netlify (παρακάτω) ή **GitHub Pages**, δωρεάν και χωρίς credits, με δικό του οδηγό: [docs/INSTALL-GITHUB-PAGES.md](docs/INSTALL-GITHUB-PAGES.md). Διάλεξε μία για καθημερινή χρήση.
+> **Δύο επιλογές φιλοξενίας:** Netlify (παρακάτω) ή **GitHub Pages**, δωρεάν και χωρίς credits, με δικό του οδηγό: [INSTALL-GITHUB-PAGES.md](INSTALL-GITHUB-PAGES.md). Διάλεξε μία για καθημερινή χρήση.
 
 Δεν χρειάζεσαι server ή εγκατάσταση εργαλείων. Το φάκελο `site/` τον ανεβάζεις στο Netlify και παίρνεις ένα link `https://<όνομα>.netlify.app`, το οποίο εγκαθιστάς στο κινητό σαν εφαρμογή.
 
