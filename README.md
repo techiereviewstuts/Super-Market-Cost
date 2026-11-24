@@ -68,6 +68,8 @@ mkicons.js                   Παράγει τα εικονίδια PNG (node mk
 
 ## Οδηγίες εγκατάστασης (βήμα-βήμα)
 
+> **Δύο επιλογές φιλοξενίας:** Netlify (παρακάτω) ή **GitHub Pages**, δωρεάν και χωρίς credits, με δικό του οδηγό: [docs/INSTALL-GITHUB-PAGES.md](docs/INSTALL-GITHUB-PAGES.md). Διάλεξε μία για καθημερινή χρήση.
+
 Δεν χρειάζεσαι server ή εγκατάσταση εργαλείων. Το φάκελο `site/` τον ανεβάζεις στο Netlify και παίρνεις ένα link `https://<όνομα>.netlify.app`, το οποίο εγκαθιστάς στο κινητό σαν εφαρμογή.
 
 ### Α. Ανέβασμα στο Netlify μέσω του app.netlify.com
@@ -144,7 +146,8 @@ mkicons.js                   Παράγει τα εικονίδια PNG (node mk
 # Τοπικά (οποιοσδήποτε στατικός server)
 npx serve site
 
-# Deploy στο Netlify
+# Deploy στο GitHub Pages: απλά git push (workflow: .github/workflows/pages.yml)
+# Deploy στο Netlify (κοστίζει 15 credits ανά production deploy)
 npx netlify-cli deploy --prod --dir=site
 ```
 

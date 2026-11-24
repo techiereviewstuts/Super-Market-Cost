@@ -1,4 +1,4 @@
-const CACHE = 'expenses-v14';
+const CACHE = 'expenses-v15';
 const ASSETS = ['./', 'index.html', 'style.css', 'app.js', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'epsilon.js'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)));
