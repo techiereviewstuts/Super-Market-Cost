@@ -10,6 +10,8 @@
 | **GitHub Pages** (προτεινόμενο) | Δωρεάν, χωρίς credits | **[Οδηγίες GitHub Pages](INSTALL-GITHUB-PAGES.md)** |
 | Netlify | Δωρεάν πλάνο με credits (15 ανά deploy) | [Οδηγίες Netlify](#οδηγίες-εγκατάστασης-βήμα-βήμα) |
 
+📋 [Changelog](CHANGELOG.md)
+
 Ζωντανή εφαρμογή: <https://techiereviewstuts.github.io/Super-Market-Cost/>
 
 ## Λειτουργίες
