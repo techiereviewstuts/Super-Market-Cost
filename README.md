@@ -1,7 +1,16 @@
 # 🛒 Super Market Cost
 
 Εφαρμογή (PWA) για Android που καταγράφει τα έξοδα σούπερ μάρκετ από **φωτογραφία ή PDF απόδειξης**, με στατιστικά, μηνιαία αναφορά και αντίγραφο ασφαλείας στο Google Drive.
-Δεν έχει server: τρέχει εξ ολοκλήρου στο κινητό και φιλοξενείται ως στατικό site στο Netlify.
+Δεν έχει server: τρέχει εξ ολοκλήρου στο κινητό και φιλοξενείται ως στατικό site (GitHub Pages ή Netlify).
+
+## 🚀 Εγκατάσταση
+
+| Φιλοξενία | Κόστος | Οδηγός |
+|---|---|---|
+| **GitHub Pages** (προτεινόμενο) | Δωρεάν, χωρίς credits | **[Οδηγίες GitHub Pages](docs/INSTALL-GITHUB-PAGES.md)** |
+| Netlify | Δωρεάν πλάνο με credits (15 ανά deploy) | [Οδηγίες Netlify](#οδηγίες-εγκατάστασης-βήμα-βήμα) |
+
+Ζωντανή εφαρμογή: <https://techiereviewstuts.github.io/Super-Market-Cost/>
 
 ## Λειτουργίες
 
