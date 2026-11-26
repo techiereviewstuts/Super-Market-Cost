@@ -527,6 +527,8 @@ $('#importFile').onchange = async ev => {
 const DEFAULT_CID = '995876883635-q0eil5ri7eqdjr83ad3amskbsl7id46l.apps.googleusercontent.com';
 const SCOPE = 'https://www.googleapis.com/auth/drive.appdata', FILE = 'supermarket-expenses-backup.json';
 let tokClient = null, token = null, tokExp = 0;
+// Επαναφορά token που ισχύει ακόμα από προηγούμενο άνοιγμα, ώστε να μη ζητάει ξανά σύνδεση
+try { const t = JSON.parse(localStorage.getItem('sm_tok') || 'null'); if (t && t.token && Date.now() < t.exp - 60000) { token = t.token; tokExp = t.exp; } } catch { }
 $('#clientId').value = localStorage.getItem('sm_cid') || DEFAULT_CID;
 $('#originTxt').textContent = location.origin;
 $('#clientId').onchange = e => { localStorage.setItem('sm_cid', e.target.value.trim()); tokClient = null; };
@@ -543,7 +545,7 @@ function ensureToken(interactive) {
     if (!window.google?.accounts?.oauth2) return rej(new Error('Η Google δεν φορτώθηκε (χρειάζεται internet)'));
     tokClient = google.accounts.oauth2.initTokenClient({
       client_id: cid, scope: SCOPE,
-      callback: r => { if (r.error) return rej(new Error(r.error_description || r.error)); token = r.access_token; tokExp = Date.now() + r.expires_in * 1000; localStorage.setItem('sm_gconn', '1'); res(token); },
+      callback: r => { if (r.error) return rej(new Error(r.error_description || r.error)); token = r.access_token; tokExp = Date.now() + r.expires_in * 1000; localStorage.setItem('sm_gconn', '1'); try { localStorage.setItem('sm_tok', JSON.stringify({ token, exp: tokExp })); } catch { } res(token); },
       error_callback: e => rej(new Error(e.type || 'Ακυρώθηκε'))
     });
     tokClient.requestAccessToken({ prompt: interactive ? (localStorage.getItem('sm_gconn') ? '' : 'consent') : '' });
@@ -551,6 +553,7 @@ function ensureToken(interactive) {
 }
 async function g(url, opt = {}) {
   const r = await fetch(url, { ...opt, headers: { Authorization: 'Bearer ' + token, ...(opt.headers || {}) } });
+  if (r.status === 401) { token = null; tokExp = 0; localStorage.removeItem('sm_tok'); }
   if (!r.ok) throw new Error('Drive ' + r.status);
   return r;
 }
