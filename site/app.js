@@ -540,6 +540,11 @@ function gState() {
 function ensureToken(interactive) {
   return new Promise((res, rej) => {
     if (token && Date.now() < tokExp - 60000) return res(token);
+    // Ο αυτόματος (μη διαδραστικός) συγχρονισμός ΔΕΝ ανοίγει ποτέ παράθυρο Google.
+    // Το access token ζει ~1 ώρα και δεν υπάρχει refresh token στο flow του browser,
+    // οπότε όταν λήξει αφήνουμε το αντίγραφο εκκρεμές αντί να ζητήσουμε ξανά σύνδεση
+    // μετά από κάθε απόδειξη. Ο χρήστης το συγχρονίζει με ένα πάτημα όποτε θέλει.
+    if (!interactive) return rej(new Error('needs-login'));
     const cid = (localStorage.getItem('sm_cid') || DEFAULT_CID).trim();
     if (!cid) return rej(new Error('Βάλε πρώτα το Google Client ID στις Ρυθμίσεις'));
     if (!window.google?.accounts?.oauth2) return rej(new Error('Η Google δεν φορτώθηκε (χρειάζεται internet)'));
@@ -548,7 +553,7 @@ function ensureToken(interactive) {
       callback: r => { if (r.error) return rej(new Error(r.error_description || r.error)); token = r.access_token; tokExp = Date.now() + r.expires_in * 1000; localStorage.setItem('sm_gconn', '1'); try { localStorage.setItem('sm_tok', JSON.stringify({ token, exp: tokExp })); } catch { } res(token); },
       error_callback: e => rej(new Error(e.type || 'Ακυρώθηκε'))
     });
-    tokClient.requestAccessToken({ prompt: interactive ? (localStorage.getItem('sm_gconn') ? '' : 'consent') : '' });
+    tokClient.requestAccessToken({ prompt: localStorage.getItem('sm_gconn') ? '' : 'consent' });
   });
 }
 async function g(url, opt = {}) {
