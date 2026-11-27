@@ -78,9 +78,16 @@ function render() {
   const pv = new Date(now.getFullYear(), now.getMonth() - 1, 1), pk = `${pv.getFullYear()}-${pad(pv.getMonth() + 1)}`;
   const show = now.getDate() <= 7 && localStorage.getItem('sm_rep_seen') !== pk && db.entries.some(e => e.date.startsWith(pk));
   const bn = $('#repBanner'); bn.hidden = !show; bn.dataset.k = pk; bn.textContent = `📑 Η αναφορά ${['Ιανουαρίου', 'Φεβρουαρίου', 'Μαρτίου', 'Απριλίου', 'Μαΐου', 'Ιουνίου', 'Ιουλίου', 'Αυγούστου', 'Σεπτεμβρίου', 'Οκτωβρίου', 'Νοεμβρίου', 'Δεκεμβρίου'][pv.getMonth()]} είναι έτοιμη — πάτα για προβολή`;
+  // υπενθύμιση συγχρονισμού: εκκρεμεί αντίγραφο εδώ και 7+ ημέρες (ή δεν έγινε ποτέ)
+  const sb = $('#syncBanner');
+  const lastSync = +localStorage.getItem('sm_sync_at') || 0;
+  const stale = localStorage.getItem('sm_gconn') && localStorage.getItem('sm_dirty') && (!lastSync || Date.now() - lastSync >= 7 * 86400000);
+  sb.hidden = !stale;
+  if (stale) sb.textContent = lastSync ? `⚠️ Έχεις ${Math.floor((Date.now() - lastSync) / 86400000)} ημέρες χωρίς αντίγραφο στο Google Drive — πάτα για συγχρονισμό` : '⚠️ Δεν έχει γίνει ποτέ αντίγραφο στο Google Drive — πάτα για συγχρονισμό';
   $('#syncState').textContent = gState();
 }
 $('#repBanner').onclick = e => { const k = e.currentTarget.dataset.k; localStorage.setItem('sm_rep_seen', k); repKey = k; showTab('report'); };
+$('#syncBanner').onclick = () => { toast('Συγχρονισμός…'); backupNow(true).then(() => toast('Το αντίγραφο ολοκληρώθηκε ✔')).catch(e => toast(e.message || e)); };
 function listHtml(arr, withDelete = false) {
   if (!arr.length) return '<li class="empty">Δεν υπάρχουν καταχωρήσεις ακόμα</li>';
   return arr.map(e => {
@@ -580,7 +587,7 @@ async function backupNow(interactive) {
   await pull();            // συγχώνευση με ό,τι υπάρχει ήδη
   localStorage.setItem(KEY, JSON.stringify(db));
   await push();
-  localStorage.removeItem('sm_dirty'); localStorage.setItem('sm_gok', '1'); render();
+  localStorage.removeItem('sm_dirty'); localStorage.setItem('sm_gok', '1'); localStorage.setItem('sm_sync_at', String(Date.now())); render();
 }
 let abT; function autoBackup() {
   if (!localStorage.getItem('sm_gconn')) return;       // μόνο αφού έχει γίνει η πρώτη σύνδεση
